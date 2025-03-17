@@ -1,5 +1,0 @@
-Email Spam Classification Project
-
-Developed an end-to-end machine learning model for classifying emails as spam or ham using Python. Preprocessed text data with NLTK, performed feature engineering, and applied models like Naive Bayes, SVM, and Random Forest. Optimized performance with ensemble methods (Voting and Stacking Classifiers). Deployed the model and vectorizer using Pickle, and built an interactive web app with Streamlit for email classification.
-
-Tools: Python, Pandas, NLTK, Scikit-learn, Streamlit
