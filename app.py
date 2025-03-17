@@ -3,16 +3,20 @@ import pickle
 import nltk
 import os
 
-# Ensure the nltk data is downloaded in a writable location
-nltk_data_path = os.path.join(os.getcwd(), "nltk_data")
-os.makedirs(nltk_data_path, exist_ok=True)
-
 # Set the NLTK data path explicitly
+nltk_data_path = os.path.join(os.getcwd(), "nltk_data")
 nltk.data.path.append(nltk_data_path)
 
-# Download the necessary tokenizer data
-nltk.download('punkt', download_dir=nltk_data_path)
-nltk.download('stopwords', download_dir=nltk_data_path)
+# Download necessary NLTK resources (if missing)
+try:
+    nltk.data.find('tokenizers/punkt')
+except LookupError:
+    nltk.download('punkt')
+
+try:
+    nltk.data.find('corpora/stopwords')
+except LookupError:
+    nltk.download('stopwords')
 
 from nltk.corpus import stopwords
 import string
@@ -23,7 +27,7 @@ tfidf = pickle.load(open('vectorizer.pkl', 'rb'))
 model = pickle.load(open('model.pkl', 'rb'))
 
 # Set Page Configuration
-st.set_page_config(page_title="Disease Prediction", page_icon="📧", layout="wide")
+st.set_page_config(page_title="Email Spam Classifier", page_icon="📧", layout="wide")
 
 # Hiding Streamlit UI Elements
 hide_st_style = """
@@ -44,8 +48,14 @@ def transform(text):
     # Remove special characters
     text = [i for i in text if i.isalnum()]
 
+    # Handle missing stopwords safely
+    try:
+        stop_words = set(stopwords.words('english'))
+    except LookupError:
+        stop_words = set()
+
     # Remove stopwords and punctuations
-    text = [i for i in text if i not in stopwords.words('english') and i not in string.punctuation]
+    text = [i for i in text if i not in stop_words and i not in string.punctuation]
 
     # Stemming
     ps = PorterStemmer()
