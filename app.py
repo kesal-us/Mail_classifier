@@ -13,7 +13,7 @@ tfidf = pickle.load(open('vectorizer.pkl', 'rb'))
 model = pickle.load(open('model.pkl', 'rb'))
 
 # Set Page Configuration
-st.set_page_config(page_title="Disease Prediction", page_icon="📧", layout="wide")
+st.set_page_config(page_title="Mail Classifier", page_icon="📧", layout="wide")
 
 # Hiding Streamlit UI Elements
 hide_st_style = """
